@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LummXD • Future Forum</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+    <style>
+        /* --- 1. CORE VARIABLES (PALETTE) --- */
+        :root {
+            --bg-deep: #030014;
+            --bg-card: rgba(17, 25, 40, 0.75);
+            --border-light: rgba(255, 255, 255, 0.08);
+            --border-hover: rgba(124, 58, 237, 0.5);
+
+            --primary: #8b5cf6;
+            --secondary: #06b6d4;
+            --accent: #f472b6;
+
+            --text-main: #ffffff;
+            --text-muted: #9ca3af;
+
+            --font-head: 'Space Grotesk', sans-serif;
+            --font-body: 'Plus Jakarta Sans', sans-serif;
+
+            --glass-blur: blur(16px);
+            --shadow-glow: 0 0 40px rgba(139, 92, 246, 0.15);
+        }
+
+        /* --- 2. GLOBAL RESET & ANIMATIONS --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            outline: none;
+        }
+
+        body {
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            font-family: var(--font-body);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Entry Animation */
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* --- 3. BACKGROUND SYSTEM (NOISE + GRID) --- */
+        .bg-fixed {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background: linear-gradient(to bottom, #030014, #0f0728);
+        }
+
+        .cyber-grid {
+            position: fixed;
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
+            z-index: -1;
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            transform: perspective(500px) rotateX(60deg);
+            animation: gridMove 20s linear infinite;
+            opacity: 0.4;
+            pointer-events: none;
+        }
+
+        @keyframes gridMove {
+            0% {
+                transform: perspective(500px) rotateX(60deg) translateY(0);
+            }
+            100% {
+                transform: perspective(500px) rotateX(60deg) translateY(60px);
+            }
+        }
+
+        .noise-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* --- 4. FLOATING NAVBAR --- */
+        nav {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 1000px;
+            padding: 12px 24px;
+            background: rgba(10, 10, 15, 0.6);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--border-light);
+            border-radius: 100px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 999;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            transition: 0.3s;
+        }
+
+        .brand {
+            font-family: var(--font-head);
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: #fff;
+            letter-spacing: -0.5px;
+        }
+        .brand span {
+            color: var(--primary);
+        }
+
+        .battery-widget {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .bat-icon-box {
+            width: 24px;
+            height: 12px;
+            border: 1px solid #fff;
+            border-radius: 3px;
+            position: relative;
+            padding: 1px;
+        }
+        .bat-icon-box::after {
+            content: '';
+            position: absolute;
+            right: -4px;
+            top: 2px;
+            width: 2px;
+            height: 6px;
+            background: #fff;
+            border-radius: 0 1px 1px 0;
+        }
+        .bat-fill {
+            height: 100%;
+            background: #4ade80;
+            width: 50%;
+            border-radius: 1px;
+            transition: 0.5s;
+        }
+        .bat-text {
+            font-size: 0.75rem;
+            font-family: var(--font-head);
+            font-weight: 600;
+        }
+        .charge-anim {
+            display: none;
+            color: #fbbf24;
+            font-size: 0.8rem;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%,
+            100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        /* --- 5. HERO SECTION --- */
+        header {
+            padding: 160px 20px 80px;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            height: 300px;
+            background: var(--primary);
+            filter: blur(120px);
+            opacity: 0.2;
+            z-index: -1;
+        }
+
+        .badge-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 50px;
+            background: linear-gradient(90deg, rgba(139, 92, 246, 0.1), rgba(6, 182, 212, 0.1));
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            font-size: 0.75rem;
+            color: #d8b4fe;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-family: var(--font-head);
+            font-size: 4rem;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            background: linear-gradient(180deg, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -1px;
+        }
+
+        p.desc {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 40px;
+        }
+
+        .action-row {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 50px;
+        }
+
+        .btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .btn-glass {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-light);
+            color: white;
+            backdrop-filter: blur(10px);
+        }
+        .btn-glass:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-3px);
+            border-color: var(--primary);
+        }
+
+        .btn-glow {
+            background: linear-gradient(135deg, var(--primary), #6d28d9);
+            color: white;
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+        }
+        .btn-glow:hover {
+            box-shadow: 0 0 40px rgba(139, 92, 246, 0.6);
+            transform: translateY(-3px);
+        }
+
+        .search-container {
+            position: relative;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        .search-container input {
+            width: 100%;
+            padding: 18px 50px 18px 24px;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--border-light);
+            border-radius: 16px;
+            color: white;
+            font-size: 1rem;
+            backdrop-filter: blur(10px);
+            transition: 0.3s;
+        }
+        .search-container input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 30px rgba(139, 92, 246, 0.2);
+            background: rgba(15, 23, 42, 0.9);
+        }
+        .search-icon {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+        }
+
+        /* --- 6. TOOLS GRID --- */
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px 80px;
+        }
+
+        .section-label {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 60px 0 30px;
+            color: var(--text-main);
+            font-family: var(--font-head);
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        .section-label::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0.1), transparent);
+        }
+        .icon-glow {
+            text-shadow: 0 0 15px currentColor;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 24px;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: 20px;
+            padding: 24px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            animation: fadeUp 0.8s ease forwards;
+            opacity: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+        .card:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        .card:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            border-color: var(--border-hover);
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: 0.4s;
+        }
+        .card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .card-top {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+
+        .icon-box {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            transition: 0.3s;
+        }
+        .card:hover .icon-box {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.4);
+        }
+
+        .tag {
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            height: fit-content;
+        }
+        .tag.osint {
+            background: rgba(6, 182, 212, 0.1);
+            color: #22d3ee;
+        }
+        .tag.ai {
+            background: rgba(139, 92, 246, 0.1);
+            color: #c084fc;
+        }
+        .tag.util {
+            background: rgba(255, 255, 255, 0.1);
+            color: #cbd5e1;
+        }
+
+        .card h3 {
+            font-family: var(--font-head);
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+            color: #fff;
+        }
+        .card p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 24px;
+            flex-grow: 1;
+        }
+
+        .btn-launch {
+            width: 100%;
+            padding: 12px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-light);
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .btn-launch:hover {
+            background: white;
+            color: black;
+        }
+
+        /* --- 7. FOOTER --- */
+        footer {
+            border-top: 1px solid var(--border-light);
+            background: #02000d;
+            padding: 60px 20px;
+            text-align: center;
+        }
+        .disclaimer {
+            max-width: 700px;
+            margin: 0 auto 30px;
+            padding: 20px;
+            background: rgba(220, 38, 38, 0.05);
+            border: 1px solid rgba(220, 38, 38, 0.2);
+            border-radius: 12px;
+            color: #fca5a5;
+            font-size: 0.85rem;
+            line-height: 1.6;
+        }
+        .copy {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            font-family: var(--font-head);
+        }
+
+        /* --- 8. POPUP / MODAL --- */
+        .popup-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
+        }
+
+        .popup-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .popup-card {
+            background: linear-gradient(145deg, #0f0a1e, #1a1035);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 28px;
+            padding: 40px 36px 36px;
+            max-width: 420px;
+            width: 100%;
+            position: relative;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.8), 0 0 60px rgba(139, 92, 246, 0.15);
+            transform: scale(0.95) translateY(20px);
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s ease;
+            opacity: 0;
+            text-align: center;
+        }
+
+        .popup-overlay.active .popup-card {
+            transform: scale(1) translateY(0);
+            opacity: 1;
+        }
+
+        /* Close button (X) */
+        .popup-close {
+            position: absolute;
+            top: 14px;
+            right: 18px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 50%;
+            width: 38px;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #9ca3af;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            font-weight: 300;
+        }
+
+        .popup-close:hover {
+            background: rgba(239, 68, 68, 0.15);
+            border-color: rgba(239, 68, 68, 0.4);
+            color: #f87171;
+            transform: rotate(90deg);
+        }
+
+        /* Popup icon / avatar */
+        .popup-avatar {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), #4f46e5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+            font-size: 2rem;
+            color: #fff;
+            box-shadow: 0 0 40px rgba(139, 92, 246, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .popup-card h2 {
+            font-family: var(--font-head);
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            background: linear-gradient(180deg, #fff, #c4b5fd);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .popup-card .sub {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 24px;
+            line-height: 1.5;
+        }
+
+        .popup-card .sub strong {
+            color: #d8b4fe;
+            -webkit-text-fill-color: #d8b4fe;
+        }
+
+        .popup-btn-wa {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 14px 32px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, #25d366, #128c7e);
+            color: #fff;
+            font-weight: 700;
+            font-size: 1rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 30px rgba(37, 211, 102, 0.25);
+            border: none;
+            width: 100%;
+            cursor: pointer;
+            font-family: var(--font-body);
+        }
+
+        .popup-btn-wa i {
+            font-size: 1.3rem;
+        }
+
+        .popup-btn-wa:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(37, 211, 102, 0.4);
+        }
+
+        .popup-btn-wa:active {
+            transform: scale(0.97);
+        }
+
+        .popup-footer-note {
+            margin-top: 18px;
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.2);
+            letter-spacing: 0.5px;
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            nav {
+                width: 95%;
+                padding: 10px 16px;
+            }
+            .bat-text {
+                display: none;
+            }
+            .popup-card {
+                padding: 32px 22px 28px;
+            }
+            .popup-card h2 {
+                font-size: 1.25rem;
+            }
+            .popup-avatar {
+                width: 60px;
+                height: 60px;
+                font-size: 1.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- BACKGROUND -->
+    <div class="bg-fixed"></div>
+    <div class="cyber-grid"></div>
+    <div class="noise-overlay"></div>
+
+    <!-- ====== POPUP ====== -->
+    <div class="popup-overlay" id="popupOverlay">
+        <div class="popup-card">
+
+            <!-- Close Button (X) -->
+            <button class="popup-close" id="popupClose" aria-label="Close">
+                <i class="fas fa-times"></i>
+            </button>
+
+            <!-- Avatar / Icon -->
+            <div class="popup-avatar">
+                <i class="fab fa-whatsapp"></i>
+            </div>
+
+            <!-- Title -->
+            <h2>Follow saluran LummXD</h2>
+
+            <!-- Subtext -->
+            <p class="sub">
+                Dapatkan update tools terbaru, dengan mengikuti <strong>saluran WhatsApp</strong> kami!
+            </p>
+
+            <!-- WhatsApp Button -->
+            <a href="https://whatsapp.com/channel/0029Vb8UPJqDzgTEfcxodd1v"
+            target="_blank"
+            class="popup-btn-wa"
+            id="popupWaBtn">
+            <i class="fab fa-whatsapp"></i>
+            Ikuti Sekarang
+        </a>
+
+        <!-- Small footer note -->
+        <div class="popup-footer-note">— LummXD FORUM —</div>
+    </div>
+</div>
+
+<!-- ====== NAVBAR ====== -->
+<nav>
+    <div class="brand">Tools <span> LummXD</span></div>
+
+    <div class="battery-widget" id="batteryWidget">
+        <i class="fas fa-bolt charge-anim" id="chargingIcon"></i>
+        <div class="bat-icon-box">
+            <div class="bat-fill" id="batteryLevel"></div>
+        </div>
+        <span class="bat-text" id="batteryText">--%</span>
+    </div>
+</nav>
+
+<!-- ====== HEADER ====== -->
+<header>
+    <div class="badge-pill">
+        <i class="fas fa-sparkles"></i>
+        <span>WEB ALL TOOLS</span>
+    </div>
+    <h1>All-in-One Professional<br />Developer Hub</h1>
+    <p class="desc">
+        Platform ekosistem tools digital untuk OSINT, Artificial Intelligence, dan Web Utilities.
+        Dirancang dengan presisi untuk kebutuhan keamanan dan pengembangan media.
+    </p>
+
+    <div class="action-row">
+        <a href="https://whatsapp.com/channel/0029Vb8UPJqDzgTEfcxodd1v" target="_blank" class="btn btn-glass">
+            <i class="fab fa-whatsapp"></i> Channel
+        </a>
+        <a href="https://t.me/LummXD" target="_blank" class="btn btn-glass">
+            <i class="fab fa-telegram-plane"></i> Telegram
+        </a>
+        <a href="https://sociabuzz.com/lumzss/tribe" target="_blank" class="btn btn-glow">
+            <i class="fas fa-coffee"></i> Support
+        </a>
+    </div>
+
+    <div class="search-container">
+        <i class="fas fa-search search-icon"></i>
+        <input type="text" id="searchInput" placeholder="Search tools (e.g. AI, OSINT, Deploy)..." />
+    </div>
+</header>
+
+<!-- ====== MAIN ====== -->
+<main>
+
+    <div class="section-label">
+        <i class="fa-solid fa-pen-to-square" style="color: #22d3ee;"></i>
+        Maker Fitur
+    </div>
+    <div class="grid" id="osintGrid"></div>
+
+    <div class="section-label">
+        <i class="fas fa-brain icon-glow" style="color: #c084fc;"></i>
+        Artificial Intelligence
+    </div>
+    <div class="grid" id="aiGrid"></div>
+
+    <div class="section-label">
+        <i class="fas fa-layer-group icon-glow" style="color: #cbd5e1;"></i>
+        Utilities & Tools
+    </div>
+    <div class="grid" id="utilGrid"></div>
+
+</main>
+
+<!-- ====== FOOTER ====== -->
+<footer>
+    <div class="disclaimer">
+        <strong><i class="fas fa-triangle-exclamation"></i> DISCLAIMER & LEGAL WARNING</strong><br />
+        Seluruh tools ini disediakan hanya untuk tujuan EDUKASI dan PENGUJIAN KEAMANAN yang sah.
+        Pengguna bertanggung jawab penuh atas segala bentuk penyalahgunaan.
+    </div>
+    <div class="copy">
+        &copy; 2026 <strong>LummXD FORUM</strong>. All Rights Reserved.
+    </div>
+</footer>
+
+<script>
+    /* ============================================================
+       1. BATTERY LOGIC
+       ============================================================ */
+    function initBattery() {
+        const levelBar = document.getElementById('batteryLevel');
+        const levelText = document.getElementById('batteryText');
+        const chargeIcon = document.getElementById('chargingIcon');
+
+        if ('getBattery' in navigator) {
+            navigator.getBattery().then(batt => {
+                function update() {
+                    const pct = Math.round(batt.level * 100);
+                    levelText.innerText = pct + '%';
+                    levelBar.style.width = pct + '%';
+
+                    if (pct <= 20) levelBar.style.background = '#f87171';
+                    else if (pct <= 50) levelBar.style.background = '#fbbf24';
+                    else levelBar.style.background = '#4ade80';
+
+                    if (batt.charging) chargeIcon.style.display = 'block';
+                    else chargeIcon.style.display = 'none';
+                }
+
+                batt.addEventListener('levelchange', update);
+                batt.addEventListener('chargingchange', update);
+                update();
+            });
+        } else {
+            document.getElementById('batteryWidget').style.display = 'none';
+        }
+    }
+    initBattery();
+
+    /* ============================================================
+       2. POPUP LOGIC (muncul saat pertama buka)
+       ============================================================ */
+    (function initPopup() {
+        const overlay = document.getElementById('popupOverlay');
+        const closeBtn = document.getElementById('popupClose');
+        const waBtn = document.getElementById('popupWaBtn');
+
+        // Cek apakah popup sudah pernah ditutup di session ini
+        if (sessionStorage.getItem('popupClosed') === 'true') {
+            return;
+        }
+
+        // Tampilkan popup setelah 600ms (biar halaman sedikit settle)
+        setTimeout(() => {
+            overlay.classList.add('active');
+            document.body.style.overflow = 'hidden'; // prevent scroll
+        }, 600);
+
+        // Fungsi tutup popup
+        function closePopup() {
+            overlay.classList.remove('active');
+            document.body.style.overflow = '';
+            sessionStorage.setItem('popupClosed', 'true');
+        }
+
+        // Event: tombol X
+        closeBtn.addEventListener('click', closePopup);
+
+        // Event: klik di luar card (overlay) -> tutup
+        overlay.addEventListener('click', (e) => {
+            if (e.target === overlay) closePopup();
+        });
+
+        // Event: tombol WhatsApp tetap buka link, lalu tutup popup (opsional)
+        waBtn.addEventListener('click', () => {
+            // Biarkan link terbuka di tab baru, tutup popup setelah delay kecil
+            setTimeout(closePopup, 300);
+        });
+
+        // Event: ESC key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && overlay.classList.contains('active')) {
+                closePopup();
+            }
+        });
+    })();
+
+    /* ============================================================
+       3. DATA TOOLS
+       ============================================================ */
+    const toolsData = [
+        // --- MAKER FITUR ---
+        {
+            name: "BRAT GENERATOR",
+            desc: "Tools untuk membuat text hitam dan background putih.",
+            url: "https://brat-generator-v2.vercel.app/",
+            cat: "osint",
+            icon: "fa-solid fa-comment-dots",
+            tag: "MAKER"
+        }, {
+            name: "QUOTE CHAT GENERATOR",
+            desc: "Membuat fake chat yg sangat ilegan.",
+            url: "https://lummxd-generate-quote.vercel.app/",
+            cat: "osint",
+            icon: "fa-solid fa-comments",
+            tag: "MAKER"
+        }, {
+            name: "QR GENERATOR",
+            desc: "Membuat gambar qr yang ketika di scan akan muncul tulisan.",
+            url: "https://qr-generator-lutfizx.vercel.app",
+            cat: "osint",
+            icon: "fa-qrcode",
+            tag: "MAKER"
+        }, {
+            name: "FAKE LOBBY FF",
+            desc: "Membuat fake lobby freefire.",
+            url: "https://fakeloby-ff-lutzz.vercel.app",
+            cat: "osint",
+            icon: "fa-solid fa-crosshairs",
+            tag: "MAKER"
+        }, {
+            name: "Ngl Confessions",
+            desc: "Website untuk meng confessions",
+            url: "https://confess.ngl.link/lummxd",
+            cat: "osint",
+            icon: "fa-solid fa-comments",
+            tag: "MAKER"
+        },
+
+        // --- AI TOOLS ---
+        {
+            name: "Top Up All Game",
+            desc: "Website Tempat top up all game terpercaya-otomatis-aman harga terjangkau.",
+            url: "https://toplumzy.grosirtopup.com/",
+            cat: "util",
+            icon: "fa-solid fa-gamepad",
+            tag: "MAKER"
+        },
+
+        // --- UTILITIES ---
+        {
+            name: "Tiktok Downloader",
+            desc: "Mendownload video, musik &  foto dari tiktok tanpa watermark",
+            url: "https://lummxd-ttdownloader-ten.vercel.app/",
+            cat: "util",
+            icon: "fa-brands fa-tiktok",
+            tag: "TOOLS"
+        }
+    ];
+
+    /* ============================================================
+       4. RENDER TOOLS
+       ============================================================ */
+    function renderTools(data) {
+        const osint = document.getElementById('osintGrid');
+        const ai = document.getElementById('aiGrid');
+        const util = document.getElementById('utilGrid');
+
+        osint.innerHTML = ai.innerHTML = util.innerHTML = '';
+
+        data.forEach((item, index) => {
+            let tagClass = 'util';
+            if (item.cat === 'osint') tagClass = 'osint';
+            if (item.cat === 'ai') tagClass = 'ai';
+
+            const html = `
+                    <div class="card" style="animation-delay: ${index * 0.05}s">
+                        <div>
+                            <div class="card-top">
+                                <div class="icon-box"><i class="fas ${item.icon}"></i></div>
+                                <span class="tag ${tagClass}">${item.tag}</span>
+                            </div>
+                            <h3>${item.name}</h3>
+                            <p>${item.desc}</p>
+                        </div>
+                        <a href="${item.url}" target="_blank" class="btn-launch">
+                            Launch Tool <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                `;
+
+            if (item.cat === 'osint') osint.innerHTML += html;
+            else if (item.cat === 'ai') ai.innerHTML += html;
+            else util.innerHTML += html;
+        });
+    }
+
+    /* ============================================================
+       5. SEARCH FUNCTION
+       ============================================================ */
+    document.getElementById('searchInput').addEventListener('input', (e) => {
+        const val = e.target.value.toLowerCase();
+        const filtered = toolsData.filter(item =>
+            item.name.toLowerCase().includes(val) ||
+            item.desc.toLowerCase().includes(val) ||
+            item.tag.toLowerCase().includes(val)
+        );
+        renderTools(filtered);
+    });
+
+    // INIT
+    renderTools(toolsData);
+</script>
+
+</body>
+</html>
