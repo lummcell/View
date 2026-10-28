@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LummXD — Tools Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
+:root{
+  --cream:#f4f1ea;
+  --paper:#fffdf8;
+  --ink:#0d0d0d;
+  --ink-2:#2a2a2a;
+  --gray:#6b6b6b;
+  --pink:#ff5c8a;
+  --lime:#c8ff3d;
+  --blue:#5b8cff;
+  --cyan:#00f0ff; 
+  --orange:#ff8c42;
+  --yellow:#ffd93d;
+  --purple:#b47aff;
+  --green:#25d366;
+  --mono:'Space Mono',monospace;
+  --display:'Bricolage Grotesque',sans-serif;
+  --verified:#1d9bf0;
+}
+
+html{scroll-behavior:smooth;}
+body{
+  font-family:var(--display);
+  background:var(--cream);
+  color:var(--ink);
+  min-height:100vh;
+  overflow-x:hidden;
+  padding-bottom:100px;
+}
+
+/* MARQUEE */
+.marquee{
+  background:var(--ink);color:var(--cream);
+  overflow:hidden;padding:10px 0;
+  font-family:var(--mono);font-size:11px;
+  letter-spacing:2px;text-transform:uppercase;
+  border-bottom:3px solid var(--ink);
+  position:relative;z-index:10;
+}
+.marquee-track{
+  display:flex;gap:40px;white-space:nowrap;
+  animation:scroll 30s linear infinite;width:max-content;
+}
+.marquee-track span{display:inline-flex;align-items:center;gap:10px;}
+.marquee-track span::after{content:'★';color:var(--lime);}
+@keyframes scroll{
+  from{transform:translateX(0);}
+  to{transform:translateX(-50%);}
+}
+
+/* HEADER */
+.header{
+  padding:24px 32px;max-width:1400px;margin:0 auto;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:16px;flex-wrap:wrap;
+}
+.header-left{display:flex;align-items:center;gap:12px;}
+.logo{display:flex;align-items:center;gap:12px;cursor:pointer;}
+.logo-mark{
+  width:48px;height:48px;background:var(--ink);
+  color:var(--lime);border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--display);font-weight:800;font-size:18px;
+  letter-spacing:-1px;box-shadow:4px 4px 0 var(--pink);
+}
+.logo-txt h1{font-size:20px;font-weight:800;letter-spacing:-0.6px;line-height:1;margin-bottom:4px;}
+.logo-txt p{font-family:var(--mono);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gray);}
+
+.header-right{display:flex;align-items:center;gap:8px;}
+.chip{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--paper);border:2px solid var(--ink);
+  border-radius:100px;padding:9px 16px;
+  font-family:var(--mono);font-size:11px;font-weight:700;
+  letter-spacing:0.5px;box-shadow:3px 3px 0 var(--ink);
+}
+.chip .dot{width:8px;height:8px;border-radius:50%;background:var(--lime);border:1px solid var(--ink);}
+
+.menu-btn{
+  width:44px;height:44px;
+  background:var(--paper);border:3px solid var(--ink);
+  border-radius:12px;display:flex;align-items:center;justify-content:center;
+  font-size:16px;color:var(--ink);cursor:pointer;
+  box-shadow:3px 3px 0 var(--ink);transition:all 0.15s;
+  flex-shrink:0;
+}
+.menu-btn:hover{transform:translate(-2px,-2px);box-shadow:5px 5px 0 var(--ink);}
+
+/* ===== PAGE SWITCHING ===== */
+.page{display:none;}
+.page.active{display:block;}
+
+/* HERO */
+.hero{max-width:1400px;margin:0 auto;padding:16px 32px 40px;}
+.hero h2{
+  font-size:clamp(44px, 8.5vw, 104px);
+  font-weight:800;line-height:0.9;
+  letter-spacing:-4px;margin-bottom:20px;
+}
+.hero h2 .stroke{-webkit-text-stroke:2px var(--ink);color:transparent;}
+.hero h2 .pink{color:var(--pink);}
+.hero h2 .underlined{position:relative;display:inline-block;}
+.hero h2 .underlined::after{
+  content:'';position:absolute;left:0;right:0;bottom:6px;
+  height:14px;background:var(--lime);z-index:-1;transform:rotate(-1deg);
+}
+
+/* HERO ROW */
+.hero-row{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  gap:20px;
+  padding-top:16px;
+  border-top:2px dashed var(--ink);
+}
+.hero-row p{
+  font-family:var(--mono);font-size:12px;color:var(--gray);
+  letter-spacing:0.5px;line-height:1.7;max-width:480px;
+}
+
+/* CTA GROUP */
+.cta-group{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+}
+.btn-donate, .btn-tiktok{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:48px;
+  height:48px;
+  border-radius:12px;
+  border:3px solid var(--ink);
+  box-shadow:3px 3px 0 var(--ink);
+  transition:all 0.15s;
+  cursor:pointer;
+  text-decoration:none;
+  font-size:20px;
+}
+.btn-donate{background:var(--pink);color:var(--paper);}
+.btn-tiktok{background:var(--ink);color:var(--cream);}
+.btn-donate:hover, .btn-tiktok:hover{transform:translate(-2px,-2px);box-shadow:5px 5px 0 var(--ink);}
+.btn-tiktok:hover{background:var(--pink);color:var(--paper);}
+
+/* SEARCH */
+.search-wrap{max-width:1400px;margin:0 auto 32px;padding:0 32px;}
+.search{
+  position:relative;display:flex;align-items:center;
+  background:var(--paper);border:3px solid var(--ink);
+  border-radius:14px;padding:0 20px;
+  box-shadow:5px 5px 0 var(--ink);transition:all 0.15s;
+}
+.search:focus-within{transform:translate(-2px,-2px);box-shadow:7px 7px 0 var(--lime);}
+.search i{font-size:16px;color:var(--ink);margin-right:14px;}
+.search input{
+  flex:1;background:none;border:none;padding:18px 0;
+  font-family:var(--display);font-size:16px;font-weight:600;
+  color:var(--ink);outline:none;
+}
+.search input::placeholder{color:var(--gray);font-weight:500;}
+.search .kbd{
+  font-family:var(--mono);font-size:11px;
+  background:var(--ink);color:var(--cream);
+  padding:4px 8px;border-radius:6px;font-weight:700;
+}
+
+/* BENTO */
+.bento{
+  max-width:1400px;margin:0 auto;padding:0 32px;
+  display:grid;grid-template-columns:repeat(6, 1fr);gap:16px;
+}
+.tile{
+  background:var(--paper);border:3px solid var(--ink);
+  border-radius:18px;padding:22px;
+  position:relative;text-decoration:none;color:var(--ink);
+  transition:all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  display:flex;flex-direction:column;overflow:hidden;min-height:170px;
+}
+.tile:hover{transform:translate(-3px,-3px);box-shadow:8px 8px 0 var(--ink);}
+.tile.wide{grid-column:span 3;}
+.tile.half{grid-column:span 3;}
+.tile.third{grid-column:span 2;}
+.tile .num{
+  font-family:var(--mono);font-size:11px;font-weight:700;
+  letter-spacing:1px;padding:4px 8px;
+  border:2px solid var(--ink);border-radius:6px;
+  display:inline-block;margin-bottom:16px;align-self:flex-start;
+}
+.tile .tile-ico{
+  font-size:28px;margin-bottom:12px;
+  display:inline-flex;align-items:center;justify-content:center;
+  width:48px;height:48px;
+  border:2px solid var(--ink);border-radius:10px;background:var(--cream);
+}
+.tile h3{font-size:20px;font-weight:800;letter-spacing:-0.5px;line-height:1.15;margin-bottom:6px;}
+.tile p{font-family:var(--mono);font-size:11px;color:var(--ink-2);line-height:1.6;flex:1;margin-bottom:14px;}
+.tile .tag{
+  font-family:var(--mono);font-size:9px;font-weight:700;
+  letter-spacing:1px;text-transform:uppercase;
+  padding:3px 7px;border-radius:4px;
+  border:1.5px solid var(--ink);align-self:flex-start;
+}
+.tile .arrow{position:absolute;top:22px;right:22px;font-size:16px;transition:transform 0.2s;}
+.tile:hover .arrow{transform:rotate(-45deg);}
+
+.tile.c-lime{background:var(--lime);}
+.tile.c-pink{background:var(--pink);color:var(--paper);}
+.tile.c-pink .num{border-color:var(--paper);color:var(--paper);}
+.tile.c-pink .tile-ico{background:rgba(255,255,255,0.2);border-color:var(--paper);color:var(--paper);}
+.tile.c-pink p{color:rgba(255,255,255,0.85);}
+.tile.c-pink .tag{border-color:var(--paper);color:var(--paper);}
+.tile.c-blue{background:var(--blue);color:var(--paper);}
+.tile.c-blue .num{border-color:var(--paper);color:var(--paper);}
+.tile.c-blue .tile-ico{background:rgba(255,255,255,0.2);border-color:var(--paper);color:var(--paper);}
+.tile.c-blue p{color:rgba(255,255,255,0.85);}
+.tile.c-blue .tag{border-color:var(--paper);color:var(--paper);}
+.tile.c-orange{background:var(--orange);}
+.tile.c-yellow{background:var(--yellow);}
+.tile.c-purple{background:var(--purple);color:var(--paper);}
+.tile.c-purple .num{border-color:var(--paper);color:var(--paper);}
+.tile.c-purple .tile-ico{background:rgba(255,255,255,0.2);border-color:var(--paper);color:var(--paper);}
+.tile.c-purple p{color:rgba(255,255,255,0.85);}
+.tile.c-purple .tag{border-color:var(--paper);color:var(--paper);}
+
+.tile.c-dark{background:var(--ink);color:var(--cream);}
+.tile.c-dark .num{border-color:var(--cream);color:var(--cream);}
+.tile.c-dark .tile-ico{background:rgba(255,255,255,0.1);border-color:var(--cream);color:var(--lime);}
+.tile.c-dark p{color:rgba(244,241,234,0.7);}
+.tile.c-dark .tag{border-color:var(--cream);color:var(--lime);}
+
+.tile.feature{grid-column:span 3;min-height:260px;padding:28px;}
+.tile.feature h3{font-size:32px;letter-spacing:-1.2px;line-height:1;margin-bottom:10px;}
+.tile.feature .tile-ico{font-size:38px;width:64px;height:64px;margin-bottom:18px;}
+.tile .sparkle{
+  position:absolute;bottom:20px;right:20px;
+  font-size:42px;opacity:0.15;font-weight:800;
+  font-family:var(--display);letter-spacing:-3px;
+}
+
+/* SECTION TITLE */
+.section-title{
+  max-width:1400px;margin:56px auto 16px;padding:0 32px;
+  display:flex;align-items:center;gap:14px;
+}
+.section-title h2{
+  font-size:26px;font-weight:800;letter-spacing:-0.8px;
+  display:flex;align-items:center;gap:10px;
+}
+.section-title .line{
+  flex:1;height:2px;
+  background:repeating-linear-gradient(90deg, var(--ink) 0, var(--ink) 8px, transparent 8px, transparent 14px);
+}
+
+/* ==================================================== */
+/* ====== SECTION BARU KHUSUS LUMMXD CLOUD (STORE) === */
+/* ==================================================== */
+.store-section{
+  max-width:1400px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+.store-card-big{
+  display: flex;
+  flex-direction: column;
+  background: var(--ink); /* Warna hitam biar kontras */
+  color: var(--paper);
+  border: 4px solid var(--ink);
+  border-radius: 24px;
+  padding: 32px;
+  text-decoration: none;
+  box-shadow: 8px 8px 0 var(--cyan); /* Bayangan Cyan ngejreng */
+  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+  overflow: hidden;
+}
+.store-card-big:hover{
+  transform: translate(-4px, -4px);
+  box-shadow: 12px 12px 0 var(--cyan);
+}
+.store-card-big .store-top{
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+.store-card-big .store-ico{
+  width: 64px;
+  height: 64px;
+  background: var(--cyan);
+  color: var(--ink);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  border: 3px solid var(--paper);
+}
+.store-card-big .store-tag{
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  background: var(--cyan);
+  color: var(--ink);
+}
+.store-card-big h3{
+  font-size: clamp(32px, 5vw, 48px);
+  font-weight: 800;
+  letter-spacing: -1.5px;
+  line-height: 1.1;
+  margin-bottom: 12px;
+  color: var(--paper);
+}
+.store-card-big p{
+  font-family: var(--mono);
+  font-size: 13px;
+  color: rgba(244,241,234,0.7);
+  line-height: 1.6;
+  max-width: 500px;
+  margin-bottom: 24px;
+}
+.store-card-big .store-btn{
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--paper);
+  color: var(--ink);
+  padding: 14px 24px;
+  border-radius: 12px;
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: 14px;
+  align-self: flex-start;
+  transition: all 0.15s;
+}
+.store-card-big:hover .store-btn{
+  background: var(--cyan);
+}
+.store-card-big .store-arrow{
+  position: absolute;
+  bottom: -20px;
+  right: -10px;
+  font-size: 180px;
+  color: rgba(255,255,255,0.03);
+  font-weight: 800;
+  pointer-events: none;
+}
+/* ==================================================== */
+
+
+/* ===== SUPPORT ===== */
+.support-section{max-width:1400px;margin:0 auto;padding:0 32px;}
+.support-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:16px;
+  align-items:stretch;
+}
+.support-card{
+  background:var(--paper);
+  border:3px solid var(--ink);border-radius:16px;
+  padding:22px;text-decoration:none;color:var(--ink);
+  transition:all 0.15s;
+  display:flex;flex-direction:column;gap:10px;
+  position:relative;overflow:hidden;
+  min-height:180px; 
+  text-align:center; 
+  align-items:center; 
+}
+.support-card:hover{transform:translate(-3px,-3px);box-shadow:8px 8px 0 var(--ink);}
+.support-card .s-ico{
+  width:48px;height:48px;border-radius:12px;
+  border:2px solid var(--ink);
+  display:flex;align-items:center;justify-content:center;
+  font-size:20px;color:#fff;
+  flex-shrink:0;
+  margin:0 auto;
+}
+.support-card.donate .s-ico{background:var(--pink);}
+.support-card.tiktok .s-ico{background:var(--ink);}
+.support-card.channel .s-ico{background:var(--green);}
+.support-card h4{
+  font-size:16px;font-weight:800;letter-spacing:-0.3px;
+  line-height:1.2;
+}
+.support-card p{
+  font-family:var(--mono);font-size:10px;color:var(--gray);
+  line-height:1.5;
+  flex:1;
+}
+.support-card .go{
+  font-family:var(--mono);font-size:10px;font-weight:700;
+  letter-spacing:1px;color:var(--ink);
+  display:inline-flex;align-items:center;justify-content:center;gap:4px;
+  margin-top:auto;
+}
+.support-card .go i{transition:transform 0.15s;}
+.support-card:hover .go i{transform:translateX(3px);}
+
+/* ===== DEVELOPER PAGE ===== */
+.dev-page{
+  max-width:900px;
+  margin:0 auto;
+  padding:40px 32px;
+}
+.dev-page-head{
+  text-align:center;
+  margin-bottom:32px;
+}
+.dev-page-head .page-label{
+  font-family:var(--mono);
+  font-size:11px;
+  letter-spacing:2px;
+  color:var(--gray);
+  text-transform:uppercase;
+  margin-bottom:8px;
+}
+.dev-page-head h2{
+  font-size:clamp(36px, 6vw, 56px);
+  font-weight:800;
+  letter-spacing:-2px;
+  line-height:1;
+}
+.dev-page-head h2 .pink{color:var(--pink);}
+
+.dev-card-main{
+  background:var(--ink);
+  color:var(--cream);
+  border:3px solid var(--ink);
+  border-radius:24px;
+  padding:36px 32px;
+  box-shadow:8px 8px 0 var(--lime);
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}
+.dev-card-main::before{
+  content:'';
+  position:absolute;
+  top:-50px;right:-50px;
+  width:200px;height:200px;
+  background:var(--pink);
+  border-radius:50%;
+  opacity:0.15;
+}
+.dev-card-main .avatar-lg{
+  width:100px;height:100px;
+  margin:0 auto 20px;
+  background:var(--lime);
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--display);font-weight:800;font-size:36px;
+  color:var(--ink);border:4px solid var(--paper);
+  position:relative;z-index:1;
+  box-shadow:0 0 0 4px rgba(200,255,61,0.3);
+}
+.dev-card-main .name-lg{
+  font-size:clamp(28px, 4vw, 36px);
+  font-weight:800;letter-spacing:-1px;
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  margin-bottom:8px;
+  position:relative;z-index:1;
+  flex-wrap:wrap;
+}
+.dev-card-main .name-lg .verified{
+  color:var(--verified);font-size:26px;
+  filter:drop-shadow(0 0 8px rgba(29,155,240,0.7));
+}
+.dev-card-main .name-lg .badge-verified-txt{
+  font-family:var(--mono);font-size:10px;font-weight:700;
+  background:rgba(29,155,240,0.15);
+  color:var(--verified);
+  border:1.5px solid rgba(29,155,240,0.5);
+  padding:4px 10px;border-radius:6px;letter-spacing:1.5px;
+}
+.dev-card-main .role-lg{
+  font-family:var(--mono);font-size:12px;
+  letter-spacing:2px;color:rgba(244,241,234,0.6);
+  text-transform:uppercase;margin-bottom:8px;
+  position:relative;z-index:1;
+}
+.dev-card-main .bio{
+  font-family:var(--mono);font-size:12px;
+  color:rgba(244,241,234,0.7);
+  line-height:1.7;max-width:400px;
+  margin:0 auto 24px;
+  position:relative;z-index:1;
+}
+.dev-card-main .social-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+  max-width:400px;
+  margin:0 auto;
+  position:relative;z-index:1;
+}
+.dev-card-main .social-item{
+  display:flex;align-items:center;gap:10px;
+  background:rgba(255,255,255,0.08);
+  border:2px solid rgba(255,255,255,0.15);
+  color:var(--cream);
+  padding:12px 14px;border-radius:10px;
+  text-decoration:none;
+  font-family:var(--mono);font-size:11px;font-weight:700;
+  letter-spacing:0.5px;
+  transition:all 0.15s;
+  text-align:left;
+}
+.dev-card-main .social-item i{
+  font-size:16px;
+  width:24px;text-align:center;
+  flex-shrink:0;
+}
+.dev-card-main .social-item .arrow-mini{
+  margin-left:auto;
+  font-size:9px;
+  opacity:0.5;
+  transition:all 0.15s;
+}
+.dev-card-main .social-item:hover{transform:translateY(-2px);}
+.dev-card-main .social-item:hover .arrow-mini{opacity:1;transform:translateX(2px);}
+.dev-card-main .social-item.tt:hover{background:var(--ink);border-color:var(--cream);color:#fff;}
+.dev-card-main .social-item.wa:hover{background:var(--green);border-color:var(--green);color:#fff;}
+.dev-card-main .social-item.dn:hover{background:var(--pink);border-color:var(--pink);color:#fff;}
+.dev-card-main .social-item.st:hover{background:var(--blue);border-color:var(--blue);color:#fff;}
+
+/* DRAWER */
+.drawer-overlay{
+  position:fixed;inset:0;background:rgba(13,13,13,0.75);
+  z-index:200;opacity:0;visibility:hidden;transition:all 0.25s;
+}
+.drawer-overlay.open{opacity:1;visibility:visible;}
+.drawer{
+  position:fixed;top:0;right:0;bottom:0;
+  width:320px;max-width:85vw;
+  background:var(--paper);
+  border-left:3px solid var(--ink);
+  z-index:201;transform:translateX(100%);
+  transition:transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  display:flex;flex-direction:column;overflow-y:auto;
+}
+.drawer.open{transform:translateX(0);}
+.drawer-head{
+  padding:22px 22px 18px;
+  border-bottom:3px dashed var(--ink);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.drawer-head h3{font-size:22px;font-weight:800;letter-spacing:-0.6px;}
+.drawer-close{
+  width:36px;height:36px;border-radius:10px;
+  background:var(--cream);border:2px solid var(--ink);
+  color:var(--ink);cursor:pointer;font-size:13px;
+  display:flex;align-items:center;justify-content:center;
+  transition:all 0.15s;
+}
+.drawer-close:hover{background:var(--pink);color:var(--paper);}
+.drawer-body{padding:18px 14px;flex:1;}
+.drawer-label{
+  font-family:var(--mono);font-size:10px;
+  letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--gray);font-weight:700;
+  padding:0 10px 10px;
+}
+.drawer-item{
+  display:flex;align-items:center;gap:12px;
+  padding:12px 14px;border-radius:10px;
+  text-decoration:none;color:var(--ink);
+  font-family:var(--display);font-size:14px;font-weight:700;
+  letter-spacing:-0.2px;cursor:pointer;transition:all 0.15s;
+  border:none;background:none;
+  width:100%;text-align:left;margin-bottom:2px;
+}
+.drawer-item:hover{background:var(--cream);}
+.drawer-item.active{background:var(--lime);}
+.drawer-item .ico{
+  width:34px;height:34px;
+  border:2px solid var(--ink);border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:13px;background:var(--cream);flex-shrink:0;
+}
+.drawer-item.active .ico{background:var(--paper);}
+.drawer-foot{
+  padding:16px 20px;border-top:3px dashed var(--ink);
+  font-family:var(--mono);font-size:10px;
+  color:var(--gray);letter-spacing:0.5px;line-height:1.6;
+}
+.drawer-foot strong{color:var(--ink);}
+
+/* BOTTOM DOCK */
+.dock{
+  position:fixed;bottom:18px;left:50%;
+  transform:translateX(-50%);
+  background:var(--ink);
+  border:3px solid var(--ink);
+  border-radius:100px;padding:6px;
+  display:flex;align-items:center;gap:4px;
+  z-index:100;box-shadow:6px 6px 0 var(--pink);
+}
+.dock-btn{
+  display:flex;align-items:center;justify-content:center;
+  gap:8px;padding:11px 22px;
+  border-radius:100px;border:none;
+  background:transparent;color:var(--cream);
+  font-family:var(--mono);font-size:11px;font-weight:700;
+  letter-spacing:0.5px;text-decoration:none;
+  cursor:pointer;transition:all 0.15s;white-space:nowrap;
+}
+.dock-btn:hover{background:rgba(244,241,234,0.12);}
+.dock-btn.active{background:var(--lime);color:var(--ink);}
+.dock-btn i{font-size:13px;}
+
+/* FOOTER */
+.footer{
+  max-width:1400px;margin:60px auto 0;
+  padding:30px 32px 0;
+  border-top:3px dashed var(--ink);
+  text-align:center;
+}
+.footer p{font-family:var(--mono);font-size:11px;color:var(--gray);line-height:1.8;}
+.footer strong{color:var(--ink);font-weight:700;}
+
+.tile.hidden{display:none;}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .bento{grid-template-columns:repeat(4, 1fr);gap:12px;padding:0 20px;}
+  .tile.wide, .tile.half{grid-column:span 2;}
+  .tile.third{grid-column:span 4;}
+  .tile.feature{grid-column:span 4;min-height:220px;}
+  .header, .hero, .search-wrap{padding-left:20px;padding-right:20px;}
+  .section-title, .support-section, .store-section{padding-left:20px;padding-right:20px;}
+  
+  .hero h2{letter-spacing:-2px;}
+  .search .kbd{display:none;}
+  .dev-page{padding:30px 20px;}
+}
+
+/* --- KHUSUS TAMPILAN HP --- */
+@media(max-width:600px){
+  .bento{grid-template-columns:1fr;gap:10px;}
+  .tile.wide, .tile.half, .tile.third, .tile.feature{grid-column:span 1;}
+  .tile.feature h3{font-size:24px;}
+  .hero h2{font-size:52px;letter-spacing:-2px;}
+  .hero h2 .underlined::after{bottom:2px;height:8px;}
+  .header{padding-top:18px;}
+  .header-right .chip:not(.battery){display:none;}
+  
+  .support-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  .support-card {
+    padding: 14px 8px;
+    min-height: 150px;
+    gap: 6px;
+  }
+  .support-card .s-ico {
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+  }
+  .support-card h4 {
+    font-size: 13px;
+  }
+  .support-card p {
+    font-size: 8.5px;
+    line-height: 1.4;
+  }
+  .support-card .go {
+    font-size: 9px;
+    width: 100%;
+  }
+  
+  /* Responsive Store Card */
+  .store-card-big { padding: 24px; }
+  .store-card-big h3 { font-size: 28px; }
+  .store-card-big .store-ico { width: 52px; height: 52px; font-size: 26px; }
+  .store-card-big .store-arrow { font-size: 120px; bottom: -10px; right: -10px; }
+  
+  .dock-btn{padding:11px 18px;font-size:10px;}
+  .section-title h2{font-size:20px;}
+  .dev-card-main{padding:28px 20px;}
+  .dev-card-main .avatar-lg{width:80px;height:80px;font-size:28px;}
+  .dev-card-main .name-lg{font-size:24px;}
+  .dev-card-main .social-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- MARQUEE -->
+<div class="marquee">
+  <div class="marquee-track">
+    <span>LUMMXD TOOLS HUB</span><span>ALL IN ONE</span><span>FREE & FAST</span>
+    <span>DEV TOOLS</span><span>GENERATOR</span><span>DOWNLOADER</span><span>STORE & TOPUP</span>
+    <span>LUMMXD TOOLS HUB</span><span>ALL IN ONE</span><span>FREE & FAST</span>
+    <span>DEV TOOLS</span><span>GENERATOR</span><span>DOWNLOADER</span><span>STORE & TOPUP</span>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-left">
+    <div class="logo" onclick="switchPage('home')">
+      <div class="logo-mark">LX</div>
+      <div class="logo-txt">
+        <h1>LummXD</h1>
+        <p>Tools Hub · v3.5</p>
+      </div>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="chip"><span class="dot"></span> ONLINE</div>
+    <div class="chip battery">
+      <i class="fas fa-battery-three-quarters" id="battIcon"></i>
+      <span id="battLvl">--%</span>
+    </div>
+    <button class="menu-btn" id="menuBtn" aria-label="Menu"><i class="fas fa-bars"></i></button>
+  </div>
+</header>
+
+<!-- ===== PAGE: HOME ===== -->
+<main class="page active" id="page-home">
+
+  <section class="hero">
+    <h2>
+      TOOLS<br>
+      <span class="underlined">HUB</span> <span class="stroke">BY</span><br>
+      <span class="pink">LUMMXD</span><span class="stroke">*</span>
+    </h2>
+    <div class="hero-row">
+      <p>Kumpulan tools digital untuk produktivitas, eksplorasi, dan kebutuhan harian. Cepat, ringan, gratis.</p>
+      <div class="cta-group">
+        <a href="https://donate-lummxd.vercel.app" target="_blank" class="btn-donate" aria-label="Donate">
+          <i class="fas fa-mug-hot"></i>
+        </a>
+        <a href="https://www.tiktok.com/@lumzssstore_reall" target="_blank" class="btn-tiktok" aria-label="TikTok">
+          <i class="fab fa-tiktok"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <div class="search-wrap">
+    <div class="search">
+      <i class="fas fa-search"></i>
+      <input type="text" id="searchInput" placeholder="Cari tool yang lu butuhin...">
+      <span class="kbd">⌘K</span>
+    </div>
+  </div>
+
+  <!-- BENTO TOOLS (LUMMXD CLOUD UDAH DICABUT DARI SINI) -->
+  <div class="bento">
+    <a href="https://lummxd-qrgenerator.vercel.app/?size=300x300&data=LummXD" target="_blank" class="tile feature c-lime" data-cat="maker">
+      <span class="num">01 / FEATURED</span>
+      <div class="tile-ico"><i class="fas fa-qrcode"></i></div>
+      <span class="tag">Generator</span>
+      <h3>QR Generator</h3>
+      <p>Bikin QR code yang munculin tulisan pas di-scan. Cepat, tanpa ribet.</p>
+      <i class="fas fa-arrow-up arrow"></i>
+      <span class="sparkle">QR</span>
+    </a>
+    <a href="https://lummxd-brat-tools.vercel.app/" target="_blank" class="tile wide c-pink" data-cat="maker">
+      <span class="num">02</span>
+      <div class="tile-ico"><i class="fas fa-font"></i></div>
+      <span class="tag">Text</span>
+      <h3>BRAT Generator</h3>
+      <p>Buat teks hitam background putih ala BRAT. Simple & elegan.</p>
+      <i class="fas fa-arrow-up arrow"></i>
+    </a>
+    <a href="https://lummxd-generate-quote.vercel.app/" target="_blank" class="tile third c-purple" data-cat="maker">
+      <span class="num">03</span>
+      <div class="tile-ico"><i class="fas fa-comment-dots"></i></div>
+      <span class="tag">Fake Chat</span>
+      <h3>Quote Chat</h3>
+      <p>Fake chat generator yang keren abis.</p>
+      <i class="fas fa-arrow-up arrow"></i>
+    </a>
+    <a href="https://confess.ngl.link/lummxd" target="_blank" class="tile third c-yellow" data-cat="maker">
+      <span class="num">04</span>
+      <div class="tile-ico"><i class="fas fa-message"></i></div>
+      <span class="tag">Confess</span>
+      <h3>NGL Confess</h3>
+      <p>Kirim confessions anonim.</p>
+      <i class="fas fa-arrow-up arrow"></i>
+    </a>
+    <a href="https://lummxd-ttdownloader-ten.vercel.app/" target="_blank" class="tile half c-dark" data-cat="utilities">
+      <span class="num">05 / UTILITIES</span>
+      <div class="tile-ico"><i class="fab fa-tiktok"></i></div>
+      <span class="tag">Downloader</span>
+      <h3>TikTok Downloader</h3>
+      <p>Download video, musik & foto TikTok tanpa watermark.</p>
+      <i class="fas fa-arrow-up arrow"></i>
+    </a>
+    <a href="https://toplumzy.grosirtopup.com/" target="_blank" class="tile half c-orange" data-cat="utilities">
+      <span class="num">06</span>
+      <div class="tile-ico"><i class="fas fa-gamepad"></i></div>
+      <span class="tag">Top Up</span>
+      <h3>Top Up All Game</h3>
+      <p>Top up game terpercaya, otomatis, aman & murah.</p>
+      <i class="fas fa-arrow-up arrow"></i>
+    </a>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- SECTION BARU: LUMMXD CLOUD (STORE) SENDIRIAN  -->
+  <!-- ============================================== -->
+  <div class="section-title">
+    <h2><i class="fas fa-store"></i> Official Store</h2>
+    <span class="line"></span>
+  </div>
+  <div class="store-section">
+    <a href="https://lummxdcloud.vercel.app/" target="_blank" class="store-card-big">
+      <div class="store-top">
+        <div class="store-ico"><i class="fas fa-cloud"></i></div>
+        <span class="store-tag">OFFICIAL STORE</span>
+      </div>
+      <h3>LummXD Cloud</h3>
+      <p>Semua produk, akun premium & layanan LummXD dalam satu tempat. Aman, cepat, dan terpercaya.</p>
+      <span class="store-btn">Kunjungi Store <i class="fas fa-arrow-right"></i></span>
+      <span class="store-arrow">STORE</span>
+    </a>
+  </div>
+  <!-- ============================================== -->
+
+
+  <!-- SUPPORT -->
+  <div class="section-title">
+    <h2><i class="fas fa-hand-holding-heart"></i> Support</h2>
+    <span class="line"></span>
+  </div>
+  <div class="support-section">
+    <div class="support-grid">
+      <a href="https://donate-lummxd.vercel.app" target="_blank" class="support-card donate">
+        <div class="s-ico"><i class="fas fa-mug-hot"></i></div>
+        <h4>Donate</h4>
+        <p>Traktir kopi dev.</p>
+        <span class="go">Buka <i class="fas fa-arrow-right"></i></span>
+      </a>
+      <a href="https://www.tiktok.com/@lumzssstore_reall" target="_blank" class="support-card tiktok">
+        <div class="s-ico"><i class="fab fa-tiktok"></i></div>
+        <h4>TikTok</h4>
+        <p>Follow @lumzssstore_reall.</p>
+        <span class="go">Buka <i class="fas fa-arrow-right"></i></span>
+      </a>
+      <a href="https://whatsapp.com/channel/0029Vb8UPJqDzgTEfcxodd1v" target="_blank" class="support-card channel">
+        <div class="s-ico"><i class="fab fa-whatsapp"></i></div>
+        <h4>Saluran WA</h4>
+        <p>Ikuti update terbaru.</p>
+        <span class="go">Ikuti <i class="fas fa-arrow-right"></i></span>
+      </a>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <p><strong>© 2026 LUMMXD</strong> — Built with ♥ · Gunakan dengan bijak.</p>
+  </footer>
+</main>
+
+<!-- ===== PAGE: DEVELOPER (HALAMAN SENDIRI) ===== -->
+<main class="page" id="page-developer">
+  <div class="dev-page">
+    <div class="dev-page-head">
+      <div class="page-label">— Halaman Developer —</div>
+      <h2>Kenalan sama <span class="pink">Developer</span></h2>
+    </div>
+
+    <div class="dev-card-main">
+      <div class="avatar-lg">LX</div>
+      <div class="name-lg">
+        LummXD
+        <i class="fas fa-circle-check verified" title="Verified"></i>
+        <span class="badge-verified-txt">VERIFIED</span>
+      </div>
+      <div class="role-lg">Developer & Owner · LummXD FORUM</div>
+      <p class="bio">Bikin tools digital gratis buat produktivitas & eksplorasi. Support biar makin semangat!</p>
+
+      <div class="social-grid">
+        <a href="https://www.tiktok.com/@lumzssstore_reall" target="_blank" class="social-item tt">
+          <i class="fab fa-tiktok"></i> TikTok
+          <i class="fas fa-arrow-right arrow-mini"></i>
+        </a>
+        <a href="https://whatsapp.com/channel/0029Vb8UPJqDzgTEfcxodd1v" target="_blank" class="social-item wa">
+          <i class="fab fa-whatsapp"></i> Saluran WA
+          <i class="fas fa-arrow-right arrow-mini"></i>
+        </a>
+        <a href="https://donate-lummxd.vercel.app" target="_blank" class="social-item dn">
+          <i class="fas fa-mug-hot"></i> Donate
+          <i class="fas fa-arrow-right arrow-mini"></i>
+        </a>
+        <a href="https://lummxdcloud.vercel.app/" target="_blank" class="social-item st">
+          <i class="fas fa-cloud"></i> All Store
+          <i class="fas fa-arrow-right arrow-mini"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <p><strong>© 2026 LUMMXD</strong> — Built with ♥ · Gunakan dengan bijak.</p>
+  </footer>
+</main>
+
+<!-- DRAWER -->
+<div class="drawer-overlay" id="drawerOverlay"></div>
+<aside class="drawer" id="drawer">
+  <div class="drawer-head">
+    <h3>Menu</h3>
+    <button class="drawer-close" id="drawerClose"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="drawer-body">
+    <div class="drawer-label">Navigasi</div>
+    <button class="drawer-item active" data-page="home">
+      <span class="ico"><i class="fas fa-house"></i></span> Beranda
+    </button>
+    <button class="drawer-item" data-page="developer">
+      <span class="ico"><i class="fas fa-user-shield"></i></span> Developer
+    </button>
+
+    <div class="drawer-label" style="margin-top:14px;">Sosial Media</div>
+    <a href="https://www.tiktok.com/@lumzssstore_reall" target="_blank" class="drawer-item">
+      <span class="ico"><i class="fab fa-tiktok"></i></span> TikTok
+    </a>
+    <a href="https://whatsapp.com/channel/0029Vb8UPJqDzgTEfcxodd1v" target="_blank" class="drawer-item">
+      <span class="ico"><i class="fab fa-whatsapp"></i></span> Saluran WhatsApp
+    </a>
+    <a href="https://donate-lummxd.vercel.app" target="_blank" class="drawer-item">
+      <span class="ico"><i class="fas fa-mug-hot"></i></span> Donate
+    </a>
+    <a href="https://lummxdcloud.vercel.app/" target="_blank" class="drawer-item">
+      <span class="ico"><i class="fas fa-cloud"></i></span> All Store
+    </a>
+  </div>
+  <div class="drawer-foot">
+    <div><strong>LummXD Tools Hub</strong></div>
+    <div>v3.5 · Build 2026</div>
+  </div>
+</aside>
+
+<!-- BOTTOM DOCK -->
+<nav class="dock">
+  <button class="dock-btn active" data-page="home"><i class="fas fa-house"></i> Beranda</button>
+  <button class="dock-btn" data-page="developer"><i class="fas fa-user-shield"></i> Developer</button>
+</nav>
+
+<script>
+// ===== PAGE SWITCHING =====
+function switchPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  document.querySelectorAll('.dock-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.page === name);
+  });
+  document.querySelectorAll('.drawer-item[data-page]').forEach(b => {
+    b.classList.toggle('active', b.dataset.page === name);
+  });
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+// Dock buttons
+document.querySelectorAll('.dock-btn').forEach(btn => {
+  btn.addEventListener('click', () => switchPage(btn.dataset.page));
+});
+
+// Drawer nav
+document.querySelectorAll('.drawer-item[data-page]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    switchPage(btn.dataset.page);
+    closeDrawer();
+  });
+});
+
+// ===== SEARCH =====
+const searchInput = document.getElementById('searchInput');
+const tiles = document.querySelectorAll('.tile');
+searchInput.addEventListener('input', () => {
+  const q = searchInput.value.toLowerCase().trim();
+  tiles.forEach(t => {
+    const title = t.querySelector('h3').textContent.toLowerCase();
+    const desc = t.querySelector('p').textContent.toLowerCase();
+    const tag = t.querySelector('.tag').textContent.toLowerCase();
+    t.classList.toggle('hidden', q && !(title.includes(q) || desc.includes(q) || tag.includes(q)));
+  });
+});
+
+// ===== DRAWER =====
+const drawer = document.getElementById('drawer');
+const drawerOverlay = document.getElementById('drawerOverlay');
+document.getElementById('menuBtn').addEventListener('click', () => {
+  drawer.classList.add('open');
+  drawerOverlay.classList.add('open');
+});
+function closeDrawer() {
+  drawer.classList.remove('open');
+  drawerOverlay.classList.remove('open');
+}
+document.getElementById('drawerClose').addEventListener('click', closeDrawer);
+drawerOverlay.addEventListener('click', closeDrawer);
+
+// ===== BATTERY =====
+if (navigator.getBattery) {
+  navigator.getBattery().then(b => {
+    const set = p => {
+      document.getElementById('battLvl').textContent = p + '%';
+      const i = document.getElementById('battIcon');
+      i.className = p <= 20 ? 'fas fa-battery-quarter' : p <= 50 ? 'fas fa-battery-half' : 'fas fa-battery-three-quarters';
+    };
+    set(Math.round(b.level * 100));
+    b.addEventListener('levelchange', () => set(Math.round(b.level * 100)));
+  });
+}
+
+// ===== KEYBOARD =====
+document.addEventListener('keydown', e => {
+  if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+    e.preventDefault();
+    if (document.getElementById('page-home').classList.contains('active')) {
+      searchInput.focus();
+    }
+  }
+  if (e.key === 'Escape') closeDrawer();
+});
+</script>
+</body>
+</html>
